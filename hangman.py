@@ -13,20 +13,23 @@ incorrect_guesses = set()
 correct_guesses = set()
 chars_in_phrase = set()
 for char in phrase:
-    chars_in_phrase.add(char)
+    if char != " " and char != "-":
+        chars_in_phrase.add(char)
 
 max_guess = 9
 cur_guess = 0
 wrong_guess = 0
 
+
+
 # While wrong guesses hasn't reached max guesses
-while wrong_guess < max_guess:
+while wrong_guess < max_guess and chars_in_phrase != correct_guesses:
     # Show number of guesses used out of allowed guesses
     print str(wrong_guess) + "/" + str(max_guess)
     # Print the phrase
     for char in phrase:
         # Show word separators as is
-        if char == " " or char == "-":
+        if char == " " or char == "-" or char in correct_guesses:
             print(char),
         else:
             print("_"),
@@ -52,6 +55,7 @@ while wrong_guess < max_guess:
 
     print "Correct guesses: %s" % correct_guesses
     print "Incorrect guesses: %s" % incorrect_guesses
+    print "Chars in phrase: %s" % chars_in_phrase
     
     # END inner loop
 

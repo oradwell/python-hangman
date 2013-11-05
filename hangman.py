@@ -1,17 +1,21 @@
+import fileinput
+
 print "=================="
 print "= Python Hangman ="
 print "=================="
 
-phrases = ["python hangman", "awesome"]
 # START main loop
 # Should be a random phrase from wordlist instead
-for phrase in phrases:
+for phrase in fileinput.input("wordlist"):
+    if len(phrase) < 1 or phrase[0] == '#':
+        continue
+
     # get unique characters into a set
     incorrect_guesses = set()
     correct_guesses = set()
     chars_in_phrase = set()
     for char in phrase:
-        if char != " " and char != "-":
+        if char != " " and char != "-" and char != "\r" and char != "\n":
             chars_in_phrase.add(char.lower())
 
     max_guess = 9
@@ -28,7 +32,7 @@ for phrase in phrases:
             # Show word separators and guessed chars as is
             if char == " " or char == "-" or char.lower() in correct_guesses:
                 print(char),
-            else:
+            elif char != "\r" and char != "\n":
                 print("_"),
 
         # New line

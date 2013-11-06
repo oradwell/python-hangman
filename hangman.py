@@ -30,7 +30,7 @@ for phrase in fileinput.input("wordlist"):
     # and not all the characters are guessed
     while wrong_guess < max_guess and chars_in_phrase != correct_guesses:
         # Show number of guesses used out of allowed guesses
-        print str(wrong_guess) + "/" + str(max_guess)
+        print "%d/%d" % (wrong_guess, max_guess)
         # Print the phrase
         for char in phrase:
             # Show word separators and guessed chars as is

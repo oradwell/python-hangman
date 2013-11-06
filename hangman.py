@@ -10,12 +10,16 @@ for phrase in fileinput.input("wordlist"):
     if len(phrase) < 1 or phrase[0] == '#':
         continue
 
+    # Remove the new line character
+    # and any other trailing or leading whitespace
+    phrase = phrase.strip()
+
     # get unique characters into a set
     incorrect_guesses = set()
     correct_guesses = set()
     chars_in_phrase = set()
     for char in phrase:
-        if char != " " and char != "-" and char != "\r" and char != "\n":
+        if char != " " and char != "-":
             chars_in_phrase.add(char.lower())
 
     max_guess = 9
@@ -32,7 +36,7 @@ for phrase in fileinput.input("wordlist"):
             # Show word separators and guessed chars as is
             if char == " " or char == "-" or char.lower() in correct_guesses:
                 print(char),
-            elif char != "\r" and char != "\n":
+            else:
                 print("_"),
 
         # New line

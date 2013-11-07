@@ -4,6 +4,9 @@ print "=================="
 print "= Python Hangman ="
 print "=================="
 
+# constants
+max_guess = 9
+
 # START main loop
 # Should be a random phrase from wordlist instead
 for phrase in fileinput.input("wordlist"):
@@ -14,16 +17,16 @@ for phrase in fileinput.input("wordlist"):
     # and any other trailing or leading whitespace
     phrase = phrase.strip()
 
-    # get unique characters into a set
+    wrong_guess = 0
     incorrect_guesses = set()
     correct_guesses = set()
     chars_in_phrase = set()
+
+    # get unique characters into a set
     for char in phrase:
         if char != " " and char != "-":
             chars_in_phrase.add(char.lower())
 
-    max_guess = 9
-    wrong_guess = 0
 
     # START inner loop
     # While wrong guesses hasn't reached max guesses 

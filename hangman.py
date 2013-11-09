@@ -1,17 +1,16 @@
-import wordlist
+from wordlist import WordList
 
 print "=================="
 print "= Python Hangman ="
 print "=================="
 
 # constants
-max_guess = 9
+MAX_GUESS = 9
 
-wl = wordlist.WordList("random")
+wl = WordList("random")
 
 # START main loop
-# Should be a random phrase from wordlist instead
-for phrase in wl.getPhrase():
+for phrase in wl.get_phrase():
     wrong_guess = 0
     incorrect_guesses = set()
     correct_guesses = set()
@@ -22,13 +21,12 @@ for phrase in wl.getPhrase():
         if char != " " and char != "-":
             chars_in_phrase.add(char.lower())
 
-
     # START inner loop
     # While wrong guesses hasn't reached max guesses 
     # and not all the characters are guessed
-    while wrong_guess < max_guess and chars_in_phrase != correct_guesses:
+    while wrong_guess < MAX_GUESS and chars_in_phrase != correct_guesses:
         # Show number of guesses used out of allowed guesses
-        print "%d/%d" % (wrong_guess, max_guess)
+        print "%d/%d" % (wrong_guess, MAX_GUESS)
         # Print the phrase
         for char in phrase:
             # Show word separators and guessed chars as is
@@ -41,8 +39,8 @@ for phrase in wl.getPhrase():
         print("")
 
         inchar = raw_input("Enter character: ")
-
-        if len(inchar) < 1:
+        inchar = inchar.strip()
+        if not inchar:
             continue
 
         inchar = inchar[0].lower()

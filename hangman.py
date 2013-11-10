@@ -1,4 +1,84 @@
-from wordlist import WordList
+from fileinput import input
+from linecache import getline
+from random import randint
+
+class Phrase:
+    _chars_as_is = [" ", "-"]
+
+    def __init__(self, text):
+        self.text = text
+
+        self.chars = set()
+        for char in text:
+            if char not in self._chars_as_is:
+                self.chars.add(char.lower())
+
+    def __str__(self):
+        return self.text
+
+    def show(self, guessed_chars):
+        for char in self.text:
+            if char in self._chars_as_is or char in guessed_chars:
+                print(char),
+            else:
+                print("_"),
+
+        print("")
+
+class WordList:
+    _filename = "wordlist"
+
+    def __init__(self, mode):
+        self._lines_used = []
+        self._num_used = 0
+        self._num_lines = 0
+        self._mode = mode
+        if mode == "sequential":
+            return
+
+        self._init_random()
+
+    def get_phrase(self):
+        if self._mode == "sequential":
+            for line in input(self._filename):
+                text = self._clean_phrase(line)
+                if not text:
+                    continue
+
+                yield Phrase(text)
+        else:
+            while self._num_used < self._num_lines:
+                line_num = self._get_random_line_num()
+                line = getline(self._filename, line_num)
+
+                text = self._clean_phrase(line)
+                if not text:
+                    continue
+
+                yield Phrase(text)
+
+    def _init_random(self):
+        self._count_lines()
+
+    def _get_random_line_num(self):
+        while True:
+            line_num = randint(1, self._num_lines)
+            if line_num not in self._lines_used:
+                self._num_used += 1
+                self._lines_used.append(line_num)
+                return line_num
+
+    def _clean_phrase(self, line):
+        phrase = line.strip()
+        if len(phrase) < 1 or phrase[0] == '#':
+            return False
+        
+        return phrase
+
+    def _count_lines(self):
+        for line in input(self._filename):
+            self._num_lines += 1
+
 
 print "=================="
 print "= Python Hangman ="
@@ -14,29 +94,15 @@ for phrase in wl.get_phrase():
     wrong_guess = 0
     incorrect_guesses = set()
     correct_guesses = set()
-    chars_in_phrase = set()
-
-    # get unique characters into a set
-    for char in phrase:
-        if char != " " and char != "-":
-            chars_in_phrase.add(char.lower())
 
     # START inner loop
     # While wrong guesses hasn't reached max guesses 
     # and not all the characters are guessed
-    while wrong_guess < MAX_GUESS and chars_in_phrase != correct_guesses:
+    while wrong_guess < MAX_GUESS and phrase.chars != correct_guesses:
         # Show number of guesses used out of allowed guesses
         print "%d/%d" % (wrong_guess, MAX_GUESS)
-        # Print the phrase
-        for char in phrase:
-            # Show word separators and guessed chars as is
-            if char == " " or char == "-" or char.lower() in correct_guesses:
-                print(char),
-            else:
-                print("_"),
-
-        # New line
-        print("")
+        
+        phrase.show(correct_guesses)
 
         inchar = raw_input("Enter character: ")
         inchar = inchar.strip()
@@ -47,7 +113,7 @@ for phrase in wl.get_phrase():
         print "You entered: %s" % inchar
 
         # Check if the character is in the phrase
-        if inchar in chars_in_phrase:
+        if inchar in phrase.chars:
             print "correct!"
             correct_guesses.add(inchar)
         elif inchar not in incorrect_guesses:
@@ -59,7 +125,7 @@ for phrase in wl.get_phrase():
 
         print "Correct guesses: %s" % correct_guesses
         print "Incorrect guesses: %s" % incorrect_guesses
-        print "Chars in phrase: %s" % chars_in_phrase
+        print "Chars in phrase: %s" % phrase.chars
         
         # END inner loop
 

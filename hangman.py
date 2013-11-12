@@ -89,6 +89,7 @@ MAX_GUESS = 9
 
 wl = WordList("random")
 
+quit = False
 # START main loop
 for phrase in wl.get_phrase():
     wrong_guess = 0
@@ -104,12 +105,17 @@ for phrase in wl.get_phrase():
         
         phrase.show(correct_guesses)
 
-        inchar = raw_input("Enter character: ")
+        inchar = raw_input("Enter character (or quit): ")
         inchar = inchar.strip()
         if not inchar:
             continue
 
-        inchar = inchar[0].lower()
+        inchar = inchar.lower()
+        if inchar == 'quit' or inchar == 'exit':
+            quit = True
+            break
+
+        inchar = inchar[0]
         print "You entered: %s" % inchar
 
         # Check if the character is in the phrase
@@ -130,5 +136,6 @@ for phrase in wl.get_phrase():
         # END inner loop
 
     print "Phrase: %s" % phrase
-
+    if quit:
+        break
     # END main loop

@@ -79,6 +79,33 @@ class WordList:
         for line in input(self._filename):
             self._num_lines += 1
 
+class HangmanGame:
+    max_guess = 9
+
+    def __init__(self, phrase):
+        self.wrong_guess = 0
+        self.incorrect_guesses = set()
+        self.correct_guesses = set()
+        self.phrase = phrase
+
+    def finished(self):
+        if self.wrong_guess >= self.max_guess:
+            return True
+
+        if self.phrase.chars == self.correct_guesses:
+            return True
+
+        return False
+
+    def guess(self, char):
+        if char in self.phrase.chars:
+            self.correct_guesses.add(char)
+            return True
+
+        self.incorrect_guesses.add(char)
+        self.wrong_guess = len(self.incorrect_guesses)
+
+        return False
 
 print "=================="
 print "= Python Hangman ="
@@ -92,18 +119,14 @@ wl = WordList("random")
 quit = False
 # START main loop
 for phrase in wl.get_phrase():
-    wrong_guess = 0
-    incorrect_guesses = set()
-    correct_guesses = set()
+    game = HangmanGame(phrase)
 
     # START inner loop
-    # While wrong guesses hasn't reached max guesses 
-    # and not all the characters are guessed
-    while wrong_guess < MAX_GUESS and phrase.chars != correct_guesses:
+    while not game.finished():
         # Show number of guesses used out of allowed guesses
-        print "%d/%d" % (wrong_guess, MAX_GUESS)
+        print "%d/%d" % (game.wrong_guess, game.max_guess)
         
-        phrase.show(correct_guesses)
+        phrase.show(game.correct_guesses)
 
         inchar = raw_input("Enter character (or quit): ")
         inchar = inchar.strip()
@@ -119,18 +142,13 @@ for phrase in wl.get_phrase():
         print "You entered: %s" % inchar
 
         # Check if the character is in the phrase
-        if inchar in phrase.chars:
+        if game.guess(inchar):
             print "correct!"
-            correct_guesses.add(inchar)
-        elif inchar not in incorrect_guesses:
-            print "incorrect!"
-            wrong_guess += 1
-            incorrect_guesses.add(inchar)
         else:
             print "incorrect!"
 
-        print "Correct guesses: %s" % correct_guesses
-        print "Incorrect guesses: %s" % incorrect_guesses
+        print "Correct guesses: %s" % game.correct_guesses
+        print "Incorrect guesses: %s" % game.incorrect_guesses
         print "Chars in phrase: %s" % phrase.chars
         
         # END inner loop

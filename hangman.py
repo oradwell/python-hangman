@@ -111,9 +111,6 @@ print "=================="
 print "= Python Hangman ="
 print "=================="
 
-# constants
-MAX_GUESS = 9
-
 wl = WordList("random")
 
 quit = False

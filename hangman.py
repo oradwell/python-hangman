@@ -88,7 +88,7 @@ class HangmanGame:
         self.correct_guesses = set()
         self.phrase = phrase
 
-    def finished(self):
+    def is_finished(self):
         if self.wrong_guess >= self.max_guess:
             return True
 
@@ -119,7 +119,7 @@ for phrase in wl.get_phrase():
     game = HangmanGame(phrase)
 
     # START inner loop
-    while not game.finished():
+    while not game.is_finished():
         # Show number of guesses used out of allowed guesses
         print "%d/%d" % (game.wrong_guess, game.max_guess)
         

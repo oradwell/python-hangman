@@ -89,13 +89,11 @@ class HangmanGame:
         self.phrase = phrase
 
     def is_finished(self):
-        if self.wrong_guess >= self.max_guess:
-            return True
+        return (self._is_max_guess_reached() or 
+            self._is_phrase_guessed_correctly())
 
-        if self.phrase.chars == self.correct_guesses:
-            return True
-
-        return False
+    def get_result(self):
+        pass
 
     def guess(self, char):
         if char in self.phrase.chars:
@@ -106,6 +104,12 @@ class HangmanGame:
         self.wrong_guess = len(self.incorrect_guesses)
 
         return False
+
+    def _is_max_guess_reached(self):
+        return self.wrong_guess >= self.max_guess
+
+    def _is_phrase_guessed_correctly(self):
+        return self.phrase.chars == self.correct_guesses
 
 print "=================="
 print "= Python Hangman ="

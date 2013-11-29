@@ -93,7 +93,12 @@ class HangmanGame:
             self._is_phrase_guessed_correctly())
 
     def get_result(self):
-        pass
+        if self._is_phrase_guessed_correctly():
+            return 'correct'
+        if self._is_max_guess_reached():
+            return 'max_reached'
+
+        return False
 
     def guess(self, char):
         if char in self.phrase.chars:
@@ -117,7 +122,6 @@ print "=================="
 
 wl = WordList("random")
 
-quit = False
 # START main loop
 for phrase in wl.get_phrase():
     game = HangmanGame(phrase)
@@ -136,7 +140,6 @@ for phrase in wl.get_phrase():
 
         inchar = inchar.lower()
         if inchar == 'quit' or inchar == 'exit':
-            quit = True
             break
 
         inchar = inchar[0]
@@ -154,7 +157,12 @@ for phrase in wl.get_phrase():
         
         # END inner loop
 
-    print "Phrase: %s" % phrase
-    if quit:
+    result = game.get_result()
+    if result == 'correct':
+        print "You have successfully guessed the phrase %s." % phrase
+    elif result == 'max_reached':
+        print "Maximum guesses reached. Phrase was %s." % phrase
+    else:
+        print "Phrase was %s." % phrase
         break
     # END main loop

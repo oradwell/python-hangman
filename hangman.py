@@ -16,14 +16,12 @@ class Phrase:
     def __str__(self):
         return self.text
 
-    def show(self, guessed_chars):
+    def get_char(self, guessed_chars):
         for char in self.text:
             if char in self._chars_as_is or char in guessed_chars:
-                print(char),
+                yield char
             else:
-                print("_"),
-
-        print("")
+                yield "_"
 
 class WordList:
     _filename = "wordlist"
@@ -131,9 +129,11 @@ for phrase in wl.get_phrase():
         # Show number of guesses used out of allowed guesses
         print "%d/%d" % (game.wrong_guess, game.max_guess)
         
-        phrase.show(game.correct_guesses)
+        for char in phrase.get_char(game.correct_guesses):
+            print(char),
+        print("")
 
-        inchar = raw_input("Enter character (or quit): ")
+        inchar = raw_input("Enter a character (or quit): ")
         inchar = inchar.strip()
         if not inchar:
             continue

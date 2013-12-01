@@ -151,9 +151,9 @@ for phrase in wl.get_phrase():
         else:
             print "incorrect!"
 
-        print "Correct guesses: %s" % game.correct_guesses
-        print "Incorrect guesses: %s" % game.incorrect_guesses
-        print "Chars in phrase: %s" % phrase.chars
+        print "Correct guesses: %s" % ', '.join(game.correct_guesses)
+        print "Incorrect guesses: %s" % ', '.join(game.incorrect_guesses)
+        print "Chars in phrase: %s" % ', '.join(phrase.chars)
         
         # END inner loop
 

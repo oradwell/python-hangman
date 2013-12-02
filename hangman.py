@@ -108,6 +108,14 @@ class HangmanGame:
 
         return False
 
+    def hint(self):
+        pos_chars = self.phrase.chars\
+            - self.correct_guesses - self.incorrect_guesses
+        c_index = randint(0, len(pos_chars))
+        char = pos_chars[c_index]
+        print(char)
+        self.correct_guesses.add(char)
+
     def _is_max_guess_reached(self):
         return self.wrong_guess >= self.max_guess
 
@@ -133,7 +141,7 @@ for phrase in wl.get_phrase():
             print(char),
         print("")
 
-        inchar = raw_input("Enter a character (or quit): ")
+        inchar = raw_input("Enter a character (or quit / hint): ")
         inchar = inchar.strip()
         if not inchar:
             continue
@@ -141,15 +149,18 @@ for phrase in wl.get_phrase():
         inchar = inchar.lower()
         if inchar == 'quit' or inchar == 'exit':
             break
-
-        inchar = inchar[0]
-        print "You entered: %s" % inchar
-
-        # Check if the character is in the phrase
-        if game.guess(inchar):
-            print "correct!"
+        elif inchar == 'hint':
+            game.hint()
         else:
-            print "incorrect!"
+            inchar = inchar[0]
+            print "You entered: %s" % inchar
+
+            # Check if the character is in the phrase
+            if game.guess(inchar):
+                print "correct!"
+            else:
+                print "incorrect!"
+
 
         print "Correct guesses: %s" % ', '.join(game.correct_guesses)
         print "Incorrect guesses: %s" % ', '.join(game.incorrect_guesses)

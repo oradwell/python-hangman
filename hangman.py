@@ -1,6 +1,6 @@
 from fileinput import input
 from linecache import getline
-from random import randint
+from random import randint, sample
 
 class Phrase:
     _chars_as_is = [" ", "-"]
@@ -111,10 +111,9 @@ class HangmanGame:
     def hint(self):
         pos_chars = self.phrase.chars\
             - self.correct_guesses - self.incorrect_guesses
-        c_index = randint(0, len(pos_chars))
-        char = pos_chars[c_index]
+        char = sample(pos_chars, 1)
         print(char)
-        self.correct_guesses.add(char)
+        self.correct_guesses.add(char[0])
 
     def _is_max_guess_reached(self):
         return self.wrong_guess >= self.max_guess

@@ -112,7 +112,6 @@ class HangmanGame:
         pos_chars = self.phrase.chars\
             - self.correct_guesses - self.incorrect_guesses
         char = sample(pos_chars, 1)
-        print(char)
         self.correct_guesses.add(char[0])
 
     def _is_max_guess_reached(self):

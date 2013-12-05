@@ -61,10 +61,12 @@ class WordList:
     def _get_random_line_num(self):
         while True:
             line_num = randint(1, self._num_lines)
-            if line_num not in self._lines_used:
-                self._num_used += 1
-                self._lines_used.append(line_num)
-                return line_num
+            if line_num in self._lines_used:
+                continue
+
+            self._num_used += 1
+            self._lines_used.append(line_num)
+            return line_num
 
     def _clean_phrase(self, line):
         phrase = line.strip()

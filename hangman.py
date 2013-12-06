@@ -31,29 +31,23 @@ class WordList:
         self._num_used = 0
         self._num_lines = 0
         self._mode = mode
-        if mode == "sequential":
-            return
-
-        self._init_random()
+        if mode != "sequential":
+            self._init_random()
 
     def get_phrase(self):
         if self._mode == "sequential":
             for line in input(self._filename):
                 text = self._clean_phrase(line)
-                if not text:
-                    continue
-
-                yield Phrase(text)
+                if text:
+                    yield Phrase(text)
         else:
             while self._num_used < self._num_lines:
                 line_num = self._get_random_line_num()
                 line = getline(self._filename, line_num)
 
                 text = self._clean_phrase(line)
-                if not text:
-                    continue
-
-                yield Phrase(text)
+                if text:
+                    yield Phrase(text)
 
     def _init_random(self):
         self._count_lines()

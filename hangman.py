@@ -120,6 +120,8 @@ print "=================="
 print "= Python Hangman ="
 print "=================="
 
+print("")
+DEBUG = True
 wl = WordList("random")
 
 # START main loop
@@ -151,14 +153,16 @@ for phrase in wl.get_phrase():
 
             # Check if the character is in the phrase
             if game.guess(inchar):
-                print "correct!"
+                print "Correct!"
             else:
-                print "incorrect!"
+                print "Incorrect!"
 
-
+        print("")
         print "Correct guesses: %s" % ', '.join(game.correct_guesses)
         print "Incorrect guesses: %s" % ', '.join(game.incorrect_guesses)
-        print "Chars in phrase: %s" % ', '.join(phrase.chars)
+        if DEBUG:
+            print "Chars in phrase: %s" % ', '.join(phrase.chars)
+        print("")
         
         # END inner loop
 
